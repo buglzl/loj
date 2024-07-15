@@ -1,0 +1,1 @@
+export default function use(cm: typeof import('codemirror')): void;

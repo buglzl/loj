@@ -1,0 +1,62 @@
+{
+  "name": "select-files",
+  "version": "1.0.1",
+  "description": "Virtually creates a file input element (<input type=\"file\" />), triggers it and returns selected files.",
+  "cdn": "dist/index.umd.js",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
+  "unpkg": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "jsdelivr": "dist/index.umd.js",
+  "umd:main": "dist/index.umd.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^25.2.1",
+    "bili": "^4.10.0",
+    "jest": "^26.0.1",
+    "prettier": "^2.0.5",
+    "rollup-plugin-typescript2": "^0.27.0",
+    "ts-jest": "^25.5.0",
+    "typedoc": "^0.17.6",
+    "typedoc-plugin-markdown": "^2.2.17",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "doc": "typedoc src/index.ts",
+    "test": "yarn test:lint && yarn test:unit",
+    "test:lint": "prettier **/*.{ts,js,json} --check",
+    "test:unit": "jest",
+    "lint": "prettier **/*.{ts,js,json} --write",
+    "build": "bili",
+    "prepublishOnly": "yarn doc && yarn build && yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VitorLuizC/select-files.git"
+  },
+  "keywords": [
+    "select-files",
+    "select-file",
+    "upload-files",
+    "upload-file",
+    "select",
+    "upload",
+    "input-file",
+    "file-input",
+    "file",
+    "filelist",
+    "dom",
+    "typescript",
+    "javascript"
+  ],
+  "author": {
+    "url": "https://vitorluizc.github.io/",
+    "name": "Vitor Luiz Cavalcanti",
+    "email": "vitorluizc@outlook.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VitorLuizC/select-files/issues"
+  },
+  "homepage": "https://github.com/VitorLuizC/select-files#readme"
+}

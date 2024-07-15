@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "dom"],
+    "target": "es2020",
+
+    // Configuration for module.
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+
+    // Configuration for type strictness.
+    "alwaysStrict": true,
+    "forceConsistentCasingInFileNames": true,
+    "importsNotUsedAsValues": "error",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true
+  },
+  "include": [".bilirc.ts", "src/"]
+}
