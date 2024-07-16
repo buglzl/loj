@@ -1,8 +1,7 @@
 <template>
   <div class="home">
-    <MdEditor :value="value" :handle-change="onChange" />
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <MdEditor :value="mdValue" :handle-change="onMdChange" />
+    <CodeEditor :value="codeValue" :handle-change="onCodeChange" />
   </div>
 </template>
 
@@ -10,9 +9,17 @@
 import HelloWorld from "@/components/HelloWorld.vue";
 import MdEditor from "@/components/MdEditor.vue"; // @ is an alias to /src
 import { ref } from "vue";
+import CodeEditor from "@/components/CodeEditor.vue";
 
-const value = ref("");
-const onChange = (v: string) => {
-  value.value = v;
+const mdValue = ref("");
+const onMdChange = (v: string) => {
+  mdValue.value = v;
+  console.log(v);
+};
+
+const codeValue = ref("");
+const onCodeChange = (v: string) => {
+  codeValue.value = v;
+  console.log(v);
 };
 </script>
