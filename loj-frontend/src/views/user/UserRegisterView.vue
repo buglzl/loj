@@ -42,6 +42,7 @@ import { useStore } from "vuex";
 import { UserControllerService, UserRegisterRequest } from "../../../generated";
 import { useRouter } from "vue-router";
 import { toNumber } from "@vue/shared";
+import { Message } from "@arco-design/web-vue";
 
 const store = useStore();
 const router = useRouter();
@@ -62,7 +63,7 @@ const handleSubmit = async () => {
       replace: true,
     });
   } else {
-    alert("登录失败. " + res.message);
+    Message.error("登录失败. " + res.message);
   }
 };
 </script>

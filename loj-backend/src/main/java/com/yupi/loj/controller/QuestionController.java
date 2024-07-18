@@ -17,6 +17,7 @@ import com.yupi.loj.model.vo.QuestionVO;
 import com.yupi.loj.service.QuestionService;
 import com.yupi.loj.service.UserService;
 import java.util.List;
+import java.util.Objects;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +60,14 @@ public class QuestionController {
         List<String> tags = questionAddRequest.getTags();
         if (tags != null) {
             question.setTags(JSONUtil.toJsonStr(tags));
+        }
+        JudgeConfig judgeConfig = questionAddRequest.getJudgeConfig();
+        if (judgeConfig != null) {
+            question.setJudgeConfig(JSONUtil.toJsonStr(judgeConfig));
+        }
+        List<JudgeCase> judgeCaseList = questionAddRequest.getJudgeCase();
+        if (judgeCaseList != null) {
+            question.setJudgeCase(JSONUtil.toJsonStr(judgeCaseList));
         }
         questionService.validQuestion(question, true);
         User loginUser = userService.getLoginUser(request);
@@ -123,7 +132,7 @@ public class QuestionController {
             question.setJudgeCase(JSONUtil.toJsonStr(judgeCase));
         }
         // 参数校验
-        questionService.validQuestion(question, false);
+        questionService.validQuestion(question, true);
         long id = questionUpdateRequest.getId();
         // 判断是否存在
         Question oldQuestion = questionService.getById(id);
@@ -133,12 +142,13 @@ public class QuestionController {
     }
 
     /**
-     * 根据 id 获取
+     * 根据 id 获取原始数据
      *
      * @param id
+     * @param request
      * @return
      */
-    @GetMapping("/get/vo")
+    @GetMapping("/get")
     public BaseResponse<QuestionVO> getQuestionVOById(long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -148,6 +158,30 @@ public class QuestionController {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
         }
         return ResultUtils.success(questionService.getQuestionVO(question, request));
+    }
+
+    /**
+     * 根据 id 获取
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/get/vo")
+    public BaseResponse<Question> getQuestionById(long id, HttpServletRequest request) {
+        if (id <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        Question question = questionService.getById(id);
+
+        if (question == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        // 判断题目的创建是否为请求的 request 的用户，不能获取全部信息
+        if (!Objects.equals(question.getUserId(), loginUser.getId()) && !userService.isAdmin(loginUser)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return ResultUtils.success(question);
     }
 
     /**

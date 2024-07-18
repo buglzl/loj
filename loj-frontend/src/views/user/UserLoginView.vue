@@ -31,6 +31,7 @@ import { reactive } from "vue";
 import { useStore } from "vuex";
 import { UserControllerService, UserLoginRequest } from "../../../generated";
 import { useRouter } from "vue-router";
+import { Message } from "@arco-design/web-vue";
 
 const store = useStore();
 const router = useRouter();
@@ -45,13 +46,14 @@ const handleSubmit = async () => {
   const res = await UserControllerService.userLoginUsingPost(form);
   console.log(res);
   if (res.code === 0) {
+    Message.success("登录成功！");
     await store.dispatch("setLoginUser", res.data);
     router.push({
       path: "/",
       replace: true,
     });
   } else {
-    alert("登录失败. " + res.message);
+    Message.error("登录失败. " + res.message);
   }
 };
 </script>
