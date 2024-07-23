@@ -33,33 +33,36 @@
           <a-form-item field="form.judgeConfig.timeLimit" label="时间限制">
             <a-input-number
               v-model="form.judgeConfig.timeLimit"
-              :style="{ width: '320px' }"
+              :style="{ width: '340px' }"
               placeholder="请输入时间限制"
               class="input-demo"
-              :min="10485760"
-              :max="535298048"
+              :min="1000"
+              :max="10000"
+              :step="500"
               model-event="input"
             />
           </a-form-item>
           <a-form-item field="form.judgeConfig.memoryLimit" label="空间限制">
             <a-input-number
               v-model="form.judgeConfig.memoryLimit"
-              :style="{ width: '320px' }"
+              :style="{ width: '340px' }"
               placeholder="请输入空间限制"
               class="input-demo"
-              :min="10485760"
-              :max="535298048"
+              :min="10240"
+              :max="131072"
+              :step="1024"
               model-event="input"
             />
           </a-form-item>
           <a-form-item field="form.judgeConfig.stackLimit" label="栈限制">
             <a-input-number
               v-model="form.judgeConfig.stackLimit"
-              :style="{ width: '320px' }"
+              :style="{ width: '340px' }"
               placeholder="请输入栈限制"
               class="input-demo"
-              :min="10485760"
-              :max="535298048"
+              :min="10240"
+              :max="131072"
+              :step="1024"
               model-event="input"
             />
           </a-form-item>
@@ -231,17 +234,15 @@ const handleSubmit = async () => {
     const res = await QuestionControllerService.updateQuestionUsingPost(
       form.value
     );
-    console.log(res);
     if (res.code === 0) {
       Message.success("修改成功");
     } else {
-      Message.error("修改失败失败. " + res.message);
+      Message.error("修改失败. " + res.message);
     }
   } else {
     const res = await QuestionControllerService.addQuestionUsingPost(
       form.value
     );
-    console.log(res);
     if (res.code === 0) {
       Message.success("创建成功");
     } else {
@@ -255,4 +256,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep(.bytemd-fullscreen.bytemd) {
+  z-index: 100;
+}
+</style>

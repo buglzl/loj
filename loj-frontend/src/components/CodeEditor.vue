@@ -1,22 +1,42 @@
 <template>
-  <div id="code-editor" ref="codeEditorRef" style="min-height: 400px" />
+  <div
+    id="code-editor"
+    ref="codeEditorRef"
+    style="min-height: 600px; height: 90vh"
+  />
 </template>
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { defineProps, onMounted, ref, toRaw, withDefaults } from "vue";
+import { defineProps, onMounted, ref, toRaw, toRefs, withDefaults } from "vue";
+import { watch } from "vue";
 
 interface Props {
   value: string;
+  language: string;
   handleChange: (v: string) => void;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
+  language: () => "java",
   handleChange: (v: string) => {
-    console.log(v);
+    // console.log(v);
+    console.log("yes");
   },
 });
+
+watch(
+  () => props.language,
+  () => {
+    if (codeEditor.value) {
+      monaco.editor.setModelLanguage(
+        toRaw(codeEditor.value).getModel(),
+        props.language
+      );
+    }
+  }
+);
 
 const codeEditorRef = ref();
 const codeEditor = ref();
@@ -29,14 +49,14 @@ onMounted(() => {
   codeEditor.value = monaco.editor.create(codeEditorRef.value, {
     value: props.value,
     language: "cpp",
-    automaticLayout: true,
     colorDecorators: true,
+    mouseWheelZoom: true,
     minimap: {
-      enabled: true,
+      enabled: false,
+      showSlider: "always",
     },
     readOnly: false,
     theme: "vs-dark",
-    // lineNumbers: "off",
     // roundedSelection: false,
     // scrollBeyondLastLine: false,
   });
@@ -48,4 +68,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style>
+.minimap slider-mouseover > canvas {
+  height: 200px !important;
+}
+</style>
