@@ -52,7 +52,7 @@ public class QuestionSubmitController {
     public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
                                          HttpServletRequest request) {
         if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数错误");
         }
         // 登录创建题目
         final User loginUser = userService.getLoginUser(request);

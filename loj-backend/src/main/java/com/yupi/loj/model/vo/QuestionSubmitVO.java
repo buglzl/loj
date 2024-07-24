@@ -1,19 +1,12 @@
 package com.yupi.loj.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.yupi.loj.model.dto.question.JudgeConfig;
-import com.yupi.loj.model.dto.questionsubmit.JudgeInfo;
-import com.yupi.loj.model.entity.Question;
+import com.yupi.loj.judge.codesandbox.model.JudgeInfo;
 import com.yupi.loj.model.entity.QuestionSubmit;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 @Data
 public class QuestionSubmitVO implements Serializable {

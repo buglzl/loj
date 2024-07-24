@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.yupi.loj.model.dto.questionsubmit.JudgeInfo;
 import lombok.Data;
 
 /**

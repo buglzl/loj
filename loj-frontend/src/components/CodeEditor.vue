@@ -48,7 +48,7 @@ onMounted(() => {
   // Hover on each property to see its docs!
   codeEditor.value = monaco.editor.create(codeEditorRef.value, {
     value: props.value,
-    language: "cpp",
+    language: props.language,
     colorDecorators: true,
     mouseWheelZoom: true,
     minimap: {
@@ -68,7 +68,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
 .minimap slider-mouseover > canvas {
   height: 200px !important;
 }

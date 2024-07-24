@@ -55,42 +55,44 @@
         </a-tabs>
       </a-col>
       <a-col :md="12" :xs="24">
-        <a-form :model="form" layout="inline">
-          <a-form-item
-            field="language"
-            label="编程语言"
-            style="min-width: 240px"
-          >
-            <a-select
-              :style="{ width: '320px' }"
-              v-model="form.language"
-              placeholder="请选择编程语言"
-              allow-clear
+        <div>
+          <a-form :model="form" layout="inline">
+            <a-form-item
+              field="language"
+              label="编程语言"
+              style="min-width: 240px"
             >
-              <a-option>cpp</a-option>
-              <a-option>java</a-option>
-              <a-option>go</a-option>
-            </a-select>
-          </a-form-item>
-        </a-form>
-        <CodeEditor
-          :language="form.language"
-          :value="form.code"
-          :handle-change="onCodeChange"
-        />
-        <a-divider :size="0" />
-        <a-button
-          type="primary"
-          style="min-width: 120px"
-          shape="round"
-          status="success"
-          @click="doSubmit"
-        >
-          <template #icon>
-            <icon-code />
-          </template>
-          提交答案
-        </a-button>
+              <a-select
+                :style="{ width: '320px' }"
+                v-model="form.language"
+                placeholder="请选择编程语言"
+                allow-clear
+              >
+                <a-option>cpp</a-option>
+                <a-option>java</a-option>
+                <a-option>go</a-option>
+              </a-select>
+            </a-form-item>
+          </a-form>
+          <CodeEditor
+            :language="form.language"
+            :value="form.code"
+            :handle-change="onCodeChange"
+          />
+          <a-divider :size="0" />
+          <a-button
+            type="primary"
+            style="min-width: 120px"
+            shape="round"
+            status="success"
+            @click="doSubmit"
+          >
+            <template #icon>
+              <icon-code />
+            </template>
+            提交答案
+          </a-button>
+        </div>
       </a-col>
     </a-row>
   </div>
@@ -159,7 +161,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
+<style scoped>
 #viewQuestionView {
   max-width: 1600px;
   margin: 0 auto;
