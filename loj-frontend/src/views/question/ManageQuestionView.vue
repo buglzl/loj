@@ -56,11 +56,6 @@ const questionColumns = [
     dataIndex: "tags",
   },
   {
-    title: "题目内容",
-    dataIndex: "content",
-    width: 250,
-  },
-  {
     title: "通过数",
     dataIndex: "acceptedNum",
   },
@@ -84,10 +79,10 @@ const questionColumns = [
     title: "判题配置",
     dataIndex: "judgeConfig",
   },
-  {
-    title: "判题用例",
-    dataIndex: "judgeCase",
-  },
+  // {
+  //   title: "判题用例",
+  //   dataIndex: "judgeCase",
+  // },
   {
     title: "操作",
     slotName: "optional",
