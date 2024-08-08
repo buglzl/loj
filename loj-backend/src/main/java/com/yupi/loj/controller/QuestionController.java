@@ -11,10 +11,15 @@ import com.yupi.loj.constant.UserConstant;
 import com.yupi.loj.exception.BusinessException;
 import com.yupi.loj.exception.ThrowUtils;
 import com.yupi.loj.model.dto.question.*;
+import com.yupi.loj.model.dto.questionsubmit.QuestionSubmitAddRequest;
+import com.yupi.loj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.yupi.loj.model.entity.Question;
+import com.yupi.loj.model.entity.QuestionSubmit;
 import com.yupi.loj.model.entity.User;
+import com.yupi.loj.model.vo.QuestionSubmitVO;
 import com.yupi.loj.model.vo.QuestionVO;
 import com.yupi.loj.service.QuestionService;
+import com.yupi.loj.service.QuestionSubmitService;
 import com.yupi.loj.service.UserService;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +45,9 @@ public class QuestionController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private QuestionSubmitService questionSubmitService;
 
     // region 增删改查
 
@@ -284,5 +292,46 @@ public class QuestionController {
         boolean result = questionService.updateById(question);
         return ResultUtils.success(result);
     }
+
+    /**
+     * 提交题目
+     *
+     * @param questionSubmitAddRequest
+     * @param request
+     * @return 提交记录 id
+     */
+    @PostMapping("/question_submit/do")
+    public BaseResponse<Long> doQuestionSubmit(@RequestBody QuestionSubmitAddRequest questionSubmitAddRequest,
+                                               HttpServletRequest request) {
+        if (questionSubmitAddRequest == null || questionSubmitAddRequest.getQuestionId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "参数错误");
+        }
+        // 登录创建题目
+        final User loginUser = userService.getLoginUser(request);
+        long questionSubmitId = questionSubmitService.doQuestionSubmit(questionSubmitAddRequest, loginUser);
+        return ResultUtils.success(questionSubmitId);
+    }
+
+    /**
+     * 分页获取列表（仅管理员）
+     * 代码是 用户可以看自己的 管理员可以看所有人的
+     * @param questionSubmitQueryRequest
+     * @return
+     */
+    @PostMapping("/question_submit/list/page")
+    public BaseResponse<Page<QuestionSubmitVO>> listQuestionSubmitByPage(@RequestBody QuestionSubmitQueryRequest questionSubmitQueryRequest,
+                                                                         HttpServletRequest request) {
+        long current = questionSubmitQueryRequest.getCurrent();
+        long size = questionSubmitQueryRequest.getPageSize();
+
+        // 从数据库中查询原始的提交分页信息
+        Page<QuestionSubmit> questionSubmitPage = questionSubmitService.page(new Page<>(current, size),
+                questionSubmitService.getQueryWrapper(questionSubmitQueryRequest));
+
+        User loginUser = userService.getLoginUser(request);
+        // 返回脱敏信息
+        return ResultUtils.success(questionSubmitService.getQuestionSubmitVOPage(questionSubmitPage, loginUser));
+    }
+
 
 }

@@ -25,18 +25,18 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy{
         Question question = judgeContext.getQuestion();
 
         Long acturalTime = judgeInfo.getTime();
-        Long acturalMemory = judgeInfo.getMemory();
+        Long acturalMemory = judgeInfo.getMemory() / 1024L;
 
         JudgeInfo judgeInfoResponse = new JudgeInfo();
-        judgeInfo.setTime(acturalTime);
-        judgeInfo.setMemory(acturalMemory);
+        judgeInfoResponse.setTime(acturalTime);
+        judgeInfoResponse.setMemory(acturalMemory);
 
         JudgeInfoEnum judgeInfoEnum = JudgeInfoEnum.WAITING;
 
         // 判断题目输出数量是否一致
         if (outputList.size() != inputList.size()) {
             judgeInfoEnum = JudgeInfoEnum.WRONG_ANSWER;
-            judgeInfo.setMessage(judgeInfoEnum.getValue());
+            judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
             return judgeInfoResponse;
         }
         // todo 这个逻辑需要修改
@@ -45,7 +45,7 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy{
             JudgeCase judgeCase = judgeCaseList.get(i);
             if (!judgeCase.getOutput().equals(outputList.get(i))) {
                 judgeInfoEnum = JudgeInfoEnum.WRONG_ANSWER;
-                judgeInfo.setMessage(judgeInfoEnum.getValue());
+                judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
                 return judgeInfoResponse;
             }
         }
@@ -59,17 +59,17 @@ public class JavaLanguageJudgeStrategy implements JudgeStrategy{
         long JAVA_FACTOR = 2;
         if (acturalMemory > needMemoryLimit * JAVA_FACTOR) {
             judgeInfoEnum = JudgeInfoEnum.MEMORY_LIMIT_EXCEEDED;
-            judgeInfo.setMessage(judgeInfoEnum.getValue());
+            judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
             return judgeInfoResponse;
         }
         if (acturalTime > needTimeLimit * JAVA_FACTOR) {
             judgeInfoEnum = JudgeInfoEnum.TIME_LIMIT_EXCEEDED;
-            judgeInfo.setMessage(judgeInfoEnum.getValue());
+            judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
             return judgeInfoResponse;
         }
 
         judgeInfoEnum = JudgeInfoEnum.ACCEPTED;
-        judgeInfo.setMessage(judgeInfoEnum.getValue());
+        judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
         return judgeInfoResponse;
     }
 }

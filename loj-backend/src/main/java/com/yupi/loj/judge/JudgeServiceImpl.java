@@ -73,6 +73,7 @@ public class JudgeServiceImpl implements JudgeService{
                 .language(language)
                 .build();
         ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
+        System.out.println("获取沙箱返回" + executeCodeResponse);
         // 4) 根据沙箱的执行结果，设置题目的判题状态和信息
         // 这个默认WAITTING表示的是已经执行完代码沙箱，现在在判断题目最终结果
         JudgeInfo judgeInfo = executeCodeResponse.getJudgeInfo();

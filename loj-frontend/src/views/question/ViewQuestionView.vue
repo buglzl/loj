@@ -43,12 +43,10 @@
               </template>
             </a-card>
           </a-tab-pane>
-          <a-tab-pane key="submitRecord" title="提交记录" disabled>
-            Content of Tab Panel 2
+          <a-tab-pane key="submitRecord" title="提交记录">
+            <QuestionSubmitView />
           </a-tab-pane>
-          <a-tab-pane key="comment" title="题解" disabled>
-            Content of Tab Panel 2
-          </a-tab-pane>
+          <a-tab-pane key="comment" title="题解" disabled> 题解</a-tab-pane>
           <a-tab-pane key="discuss" title="讨论" disabled>
             Content of Tab Panel 3
           </a-tab-pane>
@@ -110,6 +108,7 @@ import { Message } from "@arco-design/web-vue";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import { IconCode } from "@arco-design/web-vue/es/icon";
+import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 
 interface Props {
   id: string;
@@ -145,7 +144,7 @@ const doSubmit = async () => {
   }
   console.log(form.value.code);
   console.log(form);
-  const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost({
+  const res = await QuestionControllerService.doQuestionSubmitUsingPost({
     ...form.value,
     questionId: question.value.id,
   });

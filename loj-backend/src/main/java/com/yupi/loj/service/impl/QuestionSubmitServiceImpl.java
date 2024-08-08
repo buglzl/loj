@@ -8,6 +8,7 @@ import com.yupi.loj.common.ErrorCode;
 import com.yupi.loj.constant.CommonConstant;
 import com.yupi.loj.exception.BusinessException;
 import com.yupi.loj.judge.JudgeService;
+import com.yupi.loj.mapper.QuestionMapper;
 import com.yupi.loj.model.dto.questionsubmit.QuestionSubmitAddRequest;
 import com.yupi.loj.model.dto.questionsubmit.QuestionSubmitQueryRequest;
 import com.yupi.loj.model.entity.Question;
@@ -42,6 +43,8 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
     private QuestionService questionService;
     @Resource
     private UserService userService;
+    @Resource
+    private QuestionMapper questionMapper;
 
     @Resource
     @Lazy
@@ -114,12 +117,11 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
         String sortField = questionSubmitQueryRequest.getSortField();
         String sortOrder = questionSubmitQueryRequest.getSortOrder();
 
-
         queryWrapper.eq(ObjectUtils.isNotEmpty(language), "language", language);
         queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
         queryWrapper.eq(ObjectUtils.isNotEmpty(questionId), "questionId", questionId);
         queryWrapper.eq(QuestionSubmitStatusEnum.getEnumByValue(status) != null, "status", status);
-        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
+        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_DESC),
                 sortField);
         return queryWrapper;
     }

@@ -103,4 +103,4 @@ knife4j:
           - com.yupi.loj.controller
 
 codesandbox:
-  type:  # 代码沙箱类型
+  type: remote # 代码沙箱类型

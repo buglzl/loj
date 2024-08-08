@@ -9,6 +9,7 @@ import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
+import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -42,6 +43,15 @@ export const routes: Array<RouteRecordRaw> = [
     name: "题库",
     component: QuestionsView,
     meta: {
+      access: ACCESS_ENUM.NOT_LOGIN,
+    },
+  },
+  {
+    path: "/question_submit",
+    name: "提交",
+    component: QuestionSubmitView,
+    meta: {
+      hideInMenu: true,
       access: ACCESS_ENUM.NOT_LOGIN,
     },
   },

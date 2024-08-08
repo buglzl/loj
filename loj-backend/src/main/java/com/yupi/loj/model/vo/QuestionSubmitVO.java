@@ -7,6 +7,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
 public class QuestionSubmitVO implements Serializable {
@@ -50,6 +51,15 @@ public class QuestionSubmitVO implements Serializable {
      * 关联的题目信息
      */
     private QuestionVO questionVO;
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
     private static final long serialVersionUID = 1L;
 
