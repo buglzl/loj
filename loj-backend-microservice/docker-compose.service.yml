@@ -1,0 +1,55 @@
+version: '3'
+services:
+  loj-backend-gateway:
+    container_name: loj-backend-gateway
+    build: # 服务的 Docker 构建文件位置
+      context: ./loj-backend-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8101:8101"
+    networks:
+      - mynetwork
+
+  loj-backend-user-service:
+    container_name: loj-backend-user-service
+    build:
+      context: ./loj-backend-user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8102:8102"
+    networks:
+      - mynetwork
+    depends_on: # 本服务依赖的服务，控制启动先后顺序
+      - loj-backend-gateway
+
+  loj-backend-question-service:
+    container_name: loj-backend-question-service
+    build:
+      context: ./loj-backend-question-service
+      dockerfile: Dockerfile
+    ports:
+      - "8103:8103"
+    networks:
+      - mynetwork
+    depends_on:
+      - loj-backend-user-service
+      - loj-backend-gateway
+
+  loj-backend-judge-service:
+    container_name: loj-backend-judge-service
+    build:
+      context: ./loj-backend-judge-service
+      dockerfile: Dockerfile
+    ports:
+      - "8104:8104"
+    networks:
+      - mynetwork
+    depends_on:
+      - loj-backend-user-service
+      - loj-backend-question-service
+      - loj-backend-gateway
+
+# 网络，不定义的话就是默认网络
+networks:
+  mynetwork:
+
