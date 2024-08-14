@@ -17,8 +17,12 @@
           placeholder="请输入登录密码"
         />
       </a-form-item>
+      <div>
+        没有账号？
+        <a-link @click="toRegister">点我注册</a-link>
+      </div>
       <a-form-item>
-        <a-button type="primary" html-type="submit" style="width: 120px"
+        <a-button type="primary" html-type="submit" style="width: 240px"
           >登录
         </a-button>
       </a-form-item>
@@ -41,10 +45,12 @@ const form = reactive({
   userPassword: "",
 }) as UserLoginRequest;
 
+const toRegister = () => {
+  router.push("/user/register");
+};
+
 const handleSubmit = async () => {
-  console.log(form);
   const res = await UserControllerService.userLoginUsingPost(form);
-  console.log(res);
   if (res.code === 0) {
     Message.success("登录成功！");
     await store.dispatch("setLoginUser", res.data);

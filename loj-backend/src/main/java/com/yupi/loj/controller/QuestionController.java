@@ -156,7 +156,7 @@ public class QuestionController {
      * @param request
      * @return
      */
-    @GetMapping("/get")
+    @GetMapping("/get/vo")
     public BaseResponse<QuestionVO> getQuestionVOById(long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -174,7 +174,7 @@ public class QuestionController {
      * @param id
      * @return
      */
-    @GetMapping("/get/vo")
+    @GetMapping("/get")
     public BaseResponse<Question> getQuestionById(long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);

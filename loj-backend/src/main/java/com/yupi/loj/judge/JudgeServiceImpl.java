@@ -13,6 +13,7 @@ import com.yupi.loj.model.dto.question.JudgeCase;
 import com.yupi.loj.judge.codesandbox.model.JudgeInfo;
 import com.yupi.loj.model.entity.Question;
 import com.yupi.loj.model.entity.QuestionSubmit;
+import com.yupi.loj.model.enums.JudgeInfoEnum;
 import com.yupi.loj.model.enums.QuestionSubmitStatusEnum;
 import com.yupi.loj.service.QuestionService;
 import com.yupi.loj.service.QuestionSubmitService;
@@ -74,6 +75,10 @@ public class JudgeServiceImpl implements JudgeService{
                 .build();
         ExecuteCodeResponse executeCodeResponse = codeSandbox.executeCode(executeCodeRequest);
         System.out.println("获取沙箱返回" + executeCodeResponse);
+
+        questionSubmitUpdate = new QuestionSubmit();
+        questionSubmitUpdate.setId(questionSubmitId);
+
         // 4) 根据沙箱的执行结果，设置题目的判题状态和信息
         // 这个默认WAITTING表示的是已经执行完代码沙箱，现在在判断题目最终结果
         JudgeInfo judgeInfo = executeCodeResponse.getJudgeInfo();
@@ -89,14 +94,19 @@ public class JudgeServiceImpl implements JudgeService{
 
         JudgeInfo judgeInfoFinal = judgeManager.doJudge(judgeContext);
         // 6) 修改数据库中的结果
-        questionSubmitUpdate = new QuestionSubmit();
-        questionSubmitUpdate.setId(questionSubmitId);
+
         questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfoFinal));
         questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
         update = questionSubmitService.updateById(questionSubmitUpdate);
         if (!update) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "题目状态更新错误");
         }
+
+        if (JudgeInfoEnum.ACCEPTED.getValue().equals(judgeInfoFinal.getMessage())) {
+            question.setAcceptedNum(question.getAcceptedNum() + 1);
+            questionService.updateById(question);
+        }
+
         return questionSubmitService.getById(questionSubmitId);
     }
 }

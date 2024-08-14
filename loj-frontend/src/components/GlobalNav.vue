@@ -62,7 +62,6 @@ const doMenuClick = (key: string) => {
 
 const visibleRoutes = computed(() => {
   return routes.filter((item) => {
-    console.log(item);
     return (
       item?.meta?.hideInMenu !== true &&
       checkAccess(store.state.user.loginUser, item?.meta?.access as string)

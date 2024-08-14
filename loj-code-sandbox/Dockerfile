@@ -9,7 +9,7 @@ WORKDIR /app
 ADD target/loj-backend-question-service-0.0.1-SNAPSHOT.jar .
 
 # 暴露端口
-EXPOSE 8103
+EXPOSE 8090
 
 # 启动命令
-ENTRYPOINT ["java", "-jar", "/app/loj-backend-question-service-0.0.1-SNAPSHOT.jar", "--spring.profiles.active=prod"]
+ENTRYPOINT ["java", "-jar", "/app/loj-backend-question-service-0.0.1-SNAPSHOT.jar"]

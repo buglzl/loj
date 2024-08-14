@@ -82,12 +82,16 @@ public class QuestionSubmitServiceImpl extends ServiceImpl<QuestionSubmitMapper,
 //        // todo 设置初始状态
         questionSubmit.setStatus(QuestionSubmitStatusEnum.WAITING.getValue());
         questionSubmit.setJudgeInfo("{}");
+
 //        System.out.println(JSONUtil.toJsonStr(questionSubmit));
 
         boolean save = this.save(questionSubmit);
         if (!save) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "系统提交失败");
         }
+        // 这个要保存一下提交数量
+        question.setSubmitNum(question.getSubmitNum() + 1);
+        questionService.updateById(question);
         // todo 实际对提交进行处理
         // 执行判题服务
         Long questionSubmitId = questionSubmit.getId();
