@@ -6,10 +6,10 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 
 # jar 包添加到工作目录
-ADD target/loj-backend-question-service-0.0.1-SNAPSHOT.jar .
+ADD target/loj-code-sandbox-0.0.1-SNAPSHOT.jar .
 
 # 暴露端口
 EXPOSE 8090
 
 # 启动命令
-ENTRYPOINT ["java", "-jar", "/app/loj-backend-question-service-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "/app/loj-code-sandbox-0.0.1-SNAPSHOT.jar"]

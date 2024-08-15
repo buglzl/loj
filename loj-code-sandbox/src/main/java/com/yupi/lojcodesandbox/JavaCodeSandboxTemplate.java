@@ -69,9 +69,6 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
             Process compileProcess = Runtime.getRuntime().exec(compileCmd);
             ExecuteMessage executeCompileMessage = ProcessUtils.runProcessAndGetMessage(compileProcess, "编译");
             System.out.println(executeCompileMessage);
-            if (executeCompileMessage.getExitValue() != 0) {
-                throw new RuntimeException("编译错误");
-            }
             return executeCompileMessage;
         } catch (IOException e) {
             // 编译出了问题，后续需要处理
@@ -180,19 +177,30 @@ public abstract class JavaCodeSandboxTemplate implements CodeSandbox{
         // 2. 编译代码
         ExecuteMessage compileMessage = compileFile(userCodeFile);
         System.out.println(compileMessage);
+        if (compileMessage.getExitValue() == 0) {
 
-        // 注意，如果编译失败就不能往下来，日后还需要改这部分代码
-        // 3. 运行代码
-        List<ExecuteMessage> executeMessageList = runFile(userCodeFile, inputList);
-        // 4. 获取输出
-        ExecuteCodeResponse outputResponse = getOutputResponse(executeMessageList);
+            // 注意，如果编译失败就不能往下来，日后还需要改这部分代码
+            // 3. 运行代码
+            List<ExecuteMessage> executeMessageList = runFile(userCodeFile, inputList);
+            // 4. 获取输出
+            ExecuteCodeResponse outputResponse = getOutputResponse(executeMessageList);
+            // 5. 文件清理
+            boolean b = deleteFile(userCodeFile);
+            if (!b) {
+                log.error("deleteFile error, userCodeFilePath = {}", userCodeFile.getAbsolutePath());
+            }
+            return outputResponse;
+        }
+
+        ExecuteCodeResponse compileErrorResponse = new ExecuteCodeResponse();
+        compileErrorResponse.setMessage("compile error");
 
         // 5. 文件清理
         boolean b = deleteFile(userCodeFile);
         if (!b) {
             log.error("deleteFile error, userCodeFilePath = {}", userCodeFile.getAbsolutePath());
         }
-        return outputResponse;
+        return compileErrorResponse;
     }
 
     /**

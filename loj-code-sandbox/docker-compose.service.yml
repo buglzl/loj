@@ -1,0 +1,15 @@
+version: '3'
+services:
+  loj-code-sandbox:
+    container_name: loj-code-sandbox-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    networks:
+      - mynetwork
+# 网络，不定义的话就是默认网络
+networks:
+  mynetwork:
+

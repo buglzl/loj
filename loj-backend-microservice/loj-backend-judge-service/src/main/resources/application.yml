@@ -75,6 +75,7 @@ mybatis-plus:
 
 codesandbox:
   type: remote # 代码沙箱类型
+  url: http://8.138.172.130:8090/executeCode
 
 knife4j:
   enable: true
